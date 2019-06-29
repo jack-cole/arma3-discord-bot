@@ -37,9 +37,10 @@ const stopServer = (msg) => {
 }
 
 function sendRequest(command) {
-
+    let request_url = `http://${CONFIG.LISTENER_ADDRESS}/${command}?token=${CONFIG.SERVER_LISTENER_TOKEN}`
+    console.log(`sending request to ${request_url}`)
     return new Promise((resolve, reject) => {
-        request(`http://${CONFIG.LISTENER_ADDRESS}/${command}?token=${CONFIG.SERVER_LISTENER_TOKEN}`, {json: false}, (err, res, body) => {
+        request(request_url, {json: false}, (err, res, body) => {
             if (err) {
                 reject(err)
             }

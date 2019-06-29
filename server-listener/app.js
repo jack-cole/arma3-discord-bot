@@ -15,14 +15,19 @@ function checkToken(req, res) {
 
 function executeArma3ShellScriptCommand(command) {
     let fullCommand = `${CONFIG.ARMA3_SCRIPT_FILE} ${command}`
+    console.log(`Executing command${fullCommand}`)
     return new Promise((resolve, reject) => {
         exec(fullCommand, (err, stdout, stderr) => {
             if (err) {
                 // node couldn't execute the command
+                console.log(`Could not execute command ${err}`)
                 reject(err)
             }
 
             // the *entire* stdout and stderr (buffered)
+            console.log(`Command executed.`)
+            console.log(stdout)
+            console.error(stderr)
             resolve({stdout, stderr})
         })
     })
