@@ -74,7 +74,6 @@ app.get('/install', (req, res) => {
         .catch(err => {
             res.send("Could not run command on server. " + err)
         })
-    res.send("Valid token!")
 
 })
 
@@ -90,8 +89,6 @@ app.get('/mods', (req, res) => {
         .catch(err => {
             res.send("Could not run command on server. " + err)
         })
-
-    res.send("Valid token!")
 
 })
 
