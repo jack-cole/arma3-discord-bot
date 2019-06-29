@@ -77,6 +77,25 @@ app.get('/install', (req, res) => {
 
 })
 
+app.get('/install', (req, res) => {
+    console.log(`Received health request`)
+    if (!checkToken(req, res))
+        return
+
+    executeArma3ShellScriptCommand("health")
+        .then(({stdout, stderr}) => {
+            if(stderr) console.error(stderr)
+            console.log(stdout)
+            res.send(stdout)
+        })
+        .catch(err => {
+
+            console.error(err)
+            res.send(err)
+        })
+
+})
+
 app.get('/mods', (req, res) => {
     console.log(`Received mods request`)
     if (!checkToken(req, res))

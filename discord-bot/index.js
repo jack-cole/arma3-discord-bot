@@ -17,11 +17,13 @@ const startServer = (msg) => {
             msg.channel.send("Response: " + response)
         })
         .catch(err => {
-            msg.channel.send("Could not stop server " + err)
+            msg.channel.send("Could not start server " + err)
         })
 
 
 }
+
+
 
 
 const stopServer = (msg) => {
@@ -32,7 +34,19 @@ const stopServer = (msg) => {
             msg.channel.send("Response: " + response)
         })
         .catch(err => {
-            msg.channel.send("Could not start server " + err)
+            msg.channel.send("Could not stop server " + err)
+        })
+
+}
+
+const healthCheck = (msg) => {
+    msg.channel.send("Checking health status of server")
+    sendRequest("health")
+        .then(response => {
+            msg.channel.send("Status: " + response)
+        })
+        .catch(err => {
+            msg.channel.send("Could not get status " + err)
         })
 
 }
