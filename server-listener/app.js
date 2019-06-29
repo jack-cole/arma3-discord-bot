@@ -7,8 +7,9 @@ const CONFIG = require('./config.js')
 const STRINGS = require('./strings.js')
 
 function checkToken(req, res) {
-    let token_is_valid = req.query.token !== CONFIG.LISTENER_TOKEN
-    if (token_is_valid)
+    let token_is_valid = req.query.token === CONFIG.LISTENER_TOKEN
+    console.log(`Token ${token_is_valid ? "is" : "isn't"} valid`)
+    if (!token_is_valid)
         res.send('Invalid token')
     return token_is_valid
 }
@@ -22,20 +23,21 @@ function executeArma3ShellScriptCommand(command) {
                 // node couldn't execute the command
                 console.log(`Could not execute command ${err}`)
                 reject(err)
-            }
+            } else {
 
-            // the *entire* stdout and stderr (buffered)
-            console.log(`Command executed.`)
-            console.log(stdout)
-            console.error(stderr)
-            resolve({stdout, stderr})
+                // the *entire* stdout and stderr (buffered)
+                console.log(`Command executed.`)
+                console.log(stdout)
+                console.error(stderr)
+                resolve({stdout, stderr})
+            }
         })
     })
 }
 
 app.get('/start', (req, res) => {
-    if(!checkToken(req, res))
-        return;
+    if (!checkToken(req, res))
+        return
 
     executeArma3ShellScriptCommand(+" start")
         .then(({stdout, stderr}) => {
@@ -47,8 +49,9 @@ app.get('/start', (req, res) => {
 })
 
 app.get('/stop', (req, res) => {
-    if(!checkToken(req, res))
-        return;
+    console.log(`Received stop request`)
+    if (!checkToken(req, res))
+        return
 
     executeArma3ShellScriptCommand(+" stop")
         .then(({stdout, stderr}) => {
@@ -60,8 +63,9 @@ app.get('/stop', (req, res) => {
 })
 
 app.get('/install', (req, res) => {
-    if(!checkToken(req, res))
-        return;
+    console.log(`Received install request`)
+    if (!checkToken(req, res))
+        return
 
     executeArma3ShellScriptCommand(+" install")
         .then(({stdout, stderr}) => {
@@ -75,8 +79,9 @@ app.get('/install', (req, res) => {
 })
 
 app.get('/mods', (req, res) => {
-    if(!checkToken(req, res))
-        return;
+    console.log(`Received mods request`)
+    if (!checkToken(req, res))
+        return
 
     executeArma3ShellScriptCommand(+" mods")
         .then(({stdout, stderr}) => {
