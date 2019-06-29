@@ -12,6 +12,7 @@ const startServer = (msg) => {
     msg.reply("Server started")
 }
 
+
 const stopServer = (msg) => {
 
     msg.reply("Server stopped")
@@ -31,8 +32,9 @@ client.on('message', msg => {
         if (command === STRINGS.COMMAND.START) {
             startServer(msg)
         }
-
-
+        else if (command === STRINGS.COMMAND.STOP) {
+            startServer(msg)
+        }
     }
 })
 
