@@ -39,7 +39,7 @@ app.get('/start', (req, res) => {
     if (!checkToken(req, res))
         return
 
-    executeArma3ShellScriptCommand(+" start")
+    executeArma3ShellScriptCommand("start")
         .then(({stdout, stderr}) => {
             res.send("Successfully started Arma3 Server.")
         })
@@ -53,7 +53,7 @@ app.get('/stop', (req, res) => {
     if (!checkToken(req, res))
         return
 
-    executeArma3ShellScriptCommand(+" stop")
+    executeArma3ShellScriptCommand("stop")
         .then(({stdout, stderr}) => {
             res.send("Successfully stopped Arma3 Server.")
         })
@@ -67,7 +67,7 @@ app.get('/install', (req, res) => {
     if (!checkToken(req, res))
         return
 
-    executeArma3ShellScriptCommand(+" install")
+    executeArma3ShellScriptCommand("install")
         .then(({stdout, stderr}) => {
             res.send("Successfully installed/updated Arma 3.")
         })
@@ -83,7 +83,7 @@ app.get('/mods', (req, res) => {
     if (!checkToken(req, res))
         return
 
-    executeArma3ShellScriptCommand(+" mods")
+    executeArma3ShellScriptCommand("mods")
         .then(({stdout, stderr}) => {
             res.send("Successfully updated Arma 3 mods.")
         })
