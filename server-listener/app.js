@@ -44,6 +44,7 @@ function execute(command){
             return executeArma3ShellScriptCommand("status")
         })
         .then(({response,stderr}) => {
+            console.log("Status retrieved", response)
             return Arma3Status(JSON.parse(response))
         })
 }
