@@ -57,6 +57,7 @@ app.get('/start', (req, res) => {
             res.send(new Arma3Response(Arma3Response.RESULT.SUCCESS, response_obj))
         })
         .catch(err => {
+            console.error("Error during execution of start: ", err)
             res.set(HttpStatus.INTERNAL_SERVER_ERROR).send(new Arma3Response(Arma3Response.RESULT.ERROR, null))
         })
 })
@@ -70,6 +71,7 @@ app.get('/stop', (req, res) => {
             res.send(new Arma3Response(Arma3Response.RESULT.SUCCESS, response_obj))
         })
         .catch(err => {
+            console.error("Error during execution of stop: ", err)
             res.set(HttpStatus.INTERNAL_SERVER_ERROR).send(new Arma3Response(Arma3Response.RESULT.ERROR, null))
         })
 })
