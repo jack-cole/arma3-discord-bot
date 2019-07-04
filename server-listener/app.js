@@ -77,6 +77,36 @@ app.get('/stop', (req, res) => {
         })
 })
 
+app.get('/logs', (req, res) => {
+    if (!checkToken(req, res))
+        return
+
+    execute("logs")
+        .then((response_obj) => {
+            res.send(new Arma3Response(Arma3Response.RESULT.SUCCESS, response_obj))
+        })
+        .catch(err => {
+            console.error("Error during execution of stop: ", err)
+            res.set(HttpStatus.INTERNAL_SERVER_ERROR).send(new Arma3Response(Arma3Response.RESULT.ERROR, null))
+        })
+})
+
+app.get('/logs/:length', (req, res) => {
+    if (!checkToken(req, res))
+        return
+
+    execute(`logs ${length}`)
+        .then((response_obj) => {
+            res.send(new Arma3Response(Arma3Response.RESULT.SUCCESS, response_obj))
+        })
+        .catch(err => {
+            console.error("Error during execution of stop: ", err)
+            res.set(HttpStatus.INTERNAL_SERVER_ERROR).send(new Arma3Response(Arma3Response.RESULT.ERROR, null))
+        })
+})
+
+
+
 app.get('/install', (req, res) => {
     console.log(`Received install request`)
     if (!checkToken(req, res))
