@@ -40,12 +40,12 @@ function executeArma3ShellScriptCommand(command) {
 
 function execute(command){
     return executeArma3ShellScriptCommand(command)
-        .then(({response,stderr}) => {
+        .then(({stdout,stderr}) => {
             return executeArma3ShellScriptCommand("status")
         })
-        .then(({response,stderr}) => {
-            console.log("Status retrieved", response)
-            return Arma3Status(JSON.parse(response))
+        .then(({stdout,stderr}) => {
+            console.log("Status retrieved", stdout)
+            return Arma3Status(JSON.parse(stdout))
         })
 }
 
