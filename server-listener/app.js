@@ -45,7 +45,7 @@ function execute(command){
         })
         .then(({stdout,stderr}) => {
             console.log("Status retrieved", stdout)
-            return Arma3Status(JSON.parse(stdout))
+            return new Arma3Status(JSON.parse(stdout))
         })
 }
 
