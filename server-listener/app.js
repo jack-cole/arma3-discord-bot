@@ -1,6 +1,9 @@
 const express = require('express')
 const app = express()
 const {exec} = require('child_process')
+const Arma3Response = require('./model/Arma3Response')
+const Arma3Status = require('./model/Arma3Status')
+const HttpStatus = require('http-status-codes');
 
 
 const CONFIG = require('./config.js')
@@ -35,30 +38,39 @@ function executeArma3ShellScriptCommand(command) {
     })
 }
 
+function execute(command){
+    return executeArma3ShellScriptCommand("start")
+        .then(({response,stderr}) => {
+            return executeArma3ShellScriptCommand("status")
+        })
+        .then(({response,stderr}) => {
+            return Arma3Status(JSON.parse(response))
+        })
+}
+
 app.get('/start', (req, res) => {
     if (!checkToken(req, res))
         return
 
-    executeArma3ShellScriptCommand("start")
-        .then(({stdout, stderr}) => {
-            res.send("Successfully started Arma3 Server.")
+    execute("start")
+        .then((response_obj) => {
+            res.send(new Arma3Response(Arma3Response.RESULT.SUCCESS, response_obj))
         })
         .catch(err => {
-            res.send("Could not run command on server. " + err)
+            res.state(HttpStatus.INTERNAL_SERVER_ERROR).send(new Arma3Response(Arma3Response.RESULT.ERROR, null))
         })
 })
 
 app.get('/stop', (req, res) => {
-    console.log(`Received stop request`)
     if (!checkToken(req, res))
         return
 
-    executeArma3ShellScriptCommand("stop")
-        .then(({stdout, stderr}) => {
-            res.send("Successfully stopped Arma3 Server.")
+    execute("stop")
+        .then((response_obj) => {
+            res.send(new Arma3Response(Arma3Response.RESULT.SUCCESS, response_obj))
         })
         .catch(err => {
-            res.send("Could not run command on server. " + err)
+            res.state(HttpStatus.INTERNAL_SERVER_ERROR).send(new Arma3Response(Arma3Response.RESULT.ERROR, null))
         })
 })
 
@@ -77,14 +89,14 @@ app.get('/install', (req, res) => {
 
 })
 
-app.get('/install', (req, res) => {
+app.get('/health', (req, res) => {
     console.log(`Received health request`)
     if (!checkToken(req, res))
         return
 
     executeArma3ShellScriptCommand("health")
         .then(({stdout, stderr}) => {
-            if(stderr) console.error(stderr)
+            if (stderr) console.error(stderr)
             console.log(stdout)
             res.send(stdout)
         })
