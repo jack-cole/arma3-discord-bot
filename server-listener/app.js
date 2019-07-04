@@ -39,7 +39,7 @@ function executeArma3ShellScriptCommand(command) {
 }
 
 function execute(command){
-    return executeArma3ShellScriptCommand("start")
+    return executeArma3ShellScriptCommand(command)
         .then(({response,stderr}) => {
             return executeArma3ShellScriptCommand("status")
         })
